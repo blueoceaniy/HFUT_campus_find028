@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>建艺馆导览</title>
+
+  <link
+    href="https://unpkg.com/maplibre-gl@5.14.0/dist/maplibre-gl.css"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body class="intro-mode">
+  <main class="map-section" id="mapSection">
+    <div id="map"></div>
+
+  <section class="intro-overlay" id="introOverlay">
+    <div class="intro-card" id="introCard">
+      <span class="eyebrow">FROM EARTH TO CAMPUS</span>
+      <h1>世界小，合工大</h1>
+      <p>点击开始，从全球视角平滑飞入翡翠湖校区大北门。</p>
+      <button class="journey-start-btn" onclick="startGlobeIntro()">出发✈</button>
+    </div>
+    <button class="journey-control-btn" id="journeyControlBtn" onclick="toggleGlobeIntro()">
+      暂停
+    </button>
+  </section>
+
+  <header class="top-bar">
+    <div class="brand-mark">HFUT</div>
+    <div class="brand-copy">
+      <strong>翡翠湖校园导览</strong>
+      <span>Campus Navigation</span>
+    </div>
+    <div class="top-status">
+      <span class="status-dot"></span>
+      三维地图已连接
+    </div>
+  </header>
+
+  <!-- 左侧地点搜索 -->
+  <aside class="search-panel" id="searchPanel">
+    <button class="side-collapse-btn search-collapse-btn" onclick="toggleSearchPanel()" aria-label="收起搜索栏">
+      ›
+    </button>
+
+    <div class="search-panel-header">
+      <span class="eyebrow">CAMPUS PLACES</span>
+      <h2>搜索校园地点</h2>
+      <p>输入建筑或景观名称，快速定位地图节点。</p>
+    </div>
+
+    <label class="search-box">
+      <span class="search-icon">⌕</span>
+      <input id="nodeSearchInput" type="search" placeholder="搜索综合楼、科教楼、孤植树..." autocomplete="off" />
+      <button type="button" onclick="clearNodeSearch()" aria-label="清空搜索">×</button>
+    </label>
+
+    <div class="search-meta">
+      <span>地点列表</span>
+      <strong id="searchResultCount">0 个节点</strong>
+    </div>
+
+    <div class="search-results" id="searchResults"></div>
+  </aside>
+
+  <button class="search-open-btn" id="searchOpenBtn" onclick="toggleSearchPanel()" aria-label="展开搜索栏">
+    搜索地点
+  </button>
+
+  <!-- 右侧导览面板 -->
+  <div class="panel" id="guidePanel">
+    <button class="panel-collapse-btn" onclick="togglePanel()" aria-label="收起面板">
+      ‹
+    </button>
+
+    <div class="panel-inner">
+      <div class="panel-header">
+        <h1>建艺馆导览</h1>
+        <p>选择校门，查看前往建筑与艺术学院的路线。</p>
+      </div>
+
+      <div class="route-card">
+        <button class="primary-route-btn" onclick="toggleRouteGroup()">
+          <span>全部路线</span>
+          <span class="group-arrow" id="routeGroupArrow">⌄</span>
+        </button>
+
+        <div class="route-group open" id="routeGroup">
+          <button data-gate-id="north_gate" onclick="showGateRoutes('north_gate')">
+            <span>北门</span>
+            <small>North Gate</small>
+          </button>
+
+          <button data-gate-id="small_north_gate" onclick="showGateRoutes('small_north_gate')">
+            <span>小北门</span>
+            <small>Small North Gate</small>
+          </button>
+
+          <button data-gate-id="southeast_gate" onclick="showGateRoutes('southeast_gate')">
+            <span>东南门</span>
+            <small>Southeast Gate</small>
+          </button>
+
+          <button data-gate-id="west_gate" onclick="showGateRoutes('west_gate')">
+            <span>西门</span>
+            <small>West Gate</small>
+          </button>
+        </div>
+
+        <button class="roam-btn" onclick="startNorthGateRoam()">
+          <span>大北门 → 建艺馆漫游</span>
+          <span class="btn-arrow">›</span>
+        </button>
+      </div>
+
+      <div class="hint">
+        三维校园体块 / 建筑节点 / 多路径导览
+      </div>
+    </div>
+  </div>
+
+  <!-- 面板收起后重新展开按钮 -->
+  <button class="panel-open-btn" id="panelOpenBtn" onclick="togglePanel()" aria-label="展开面板">
+    导览
+  </button>
+
+  <!-- 左下角实时小地图 -->
+  <div class="mini-map-wrap">
+    <div class="mini-map-title">实时小地图</div>
+    <div id="miniMap"></div>
+  </div>
+
+  <!-- 右侧建筑互动信息面板 -->
+  <div class="building-info-panel" id="buildingInfoPanel">
+    <div class="info-tag">途经节点</div>
+    <h2 id="infoTitle">建筑节点</h2>
+
+    <div class="info-image-box" id="infoImageBox">
+      <img id="infoImage" src="" alt="建筑图片" />
+    </div>
+
+    <p id="infoDesc">
+      这里是当前途经建筑节点的信息。
+    </p>
+
+    <div class="info-question">
+      你是否已经看到这个建筑？
+    </div>
+
+    <div class="info-actions">
+      <button class="confirm-btn" onclick="confirmSeenAndContinue()">
+        看到了，继续
+      </button>
+      <button class="skip-btn" onclick="skipNodeAndContinue()">
+        先跳过
+      </button>
+    </div>
+  </div>
+
+  <section class="arrival-prompt" id="arrivalPrompt">
+    <span class="eyebrow">NEXT DESTINATION</span>
+    <h2>已到达建艺馆</h2>
+    <p>是否开始前往 028 教室？</p>
+    <div class="arrival-actions">
+      <button class="confirm-btn" onclick="openVideoPage()">开始前往</button>
+      <button class="skip-btn" onclick="hideArrivalPrompt()">暂时不要</button>
+    </div>
+  </section>
+  <div class="confetti-layer" id="confettiLayer" aria-hidden="true"></div>
+  </main>
+
+  <section class="video-page" id="videoPage">
+    <div class="tutorial-heading">
+      <div>
+        <span class="eyebrow">028 CLASSROOM TUTORIAL</span>
+        <h2>如何前往 028</h2>
+        <p>跟随视频，从建艺馆入口继续前往 028 教室。</p>
+      </div>
+      <div class="tutorial-controls">
+        <label>
+          播放倍速
+          <select onchange="setVideoPlaybackRate(this.value)">
+            <option value="0.75">0.75×</option>
+            <option value="1" selected>1×</option>
+            <option value="1.25">1.25×</option>
+            <option value="1.5">1.5×</option>
+            <option value="2">2×</option>
+          </select>
+        </label>
+        <button class="video-back-btn" onclick="closeVideoPage()">返回校园地图</button>
+      </div>
+    </div>
+
+    <div class="tutorial-stage">
+      <div class="video-embed">
+        <video
+          id="roomVideo"
+          src="./videos/20260611_028.mp4"
+          controls
+          playsinline
+          preload="metadata"
+        ></video>
+        <div class="video-start-card" id="videoStartCard">
+          <span class="eyebrow">VIDEO TUTORIAL</span>
+          <h2>准备开始室内导览</h2>
+          <p>播放后可使用声音、进度、倍速和全屏等视频控件。</p>
+          <button class="journey-start-btn" onclick="startRoomVideo()">点击开始</button>
+        </div>
+      </div>
+
+      <aside class="tutorial-notes">
+        <div class="tutorial-note highlight">
+          <span>ROUTE 028</span>
+          <strong>建艺馆 → 028 教室</strong>
+          <p>原始视频画面，跟随路线继续完成室内导览。</p>
+        </div>
+        <div class="tutorial-note">
+          <span>01</span>
+          <strong>进入建艺馆</strong>
+          <p>从路线终点进入建筑内部。</p>
+        </div>
+        <div class="tutorial-note">
+          <span>02</span>
+          <strong>跟随视频指引</strong>
+          <p>注意走廊转向与楼层标识。</p>
+        </div>
+        <div class="tutorial-note">
+          <span>03</span>
+          <strong>抵达 028</strong>
+          <p>在教室门口完成导览。</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <script src="https://unpkg.com/maplibre-gl@5.14.0/dist/maplibre-gl.js"></script>
+  <script src="./main.js?v=20260611-globe"></script>
+</body>
+</html>

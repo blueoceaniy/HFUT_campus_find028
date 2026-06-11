@@ -1,0 +1,25 @@
+{
+"type": "FeatureCollection",
+"name": "pointss",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{"type":"Feature","properties":{"name":"孤植树","level":3},"geometry":{"type":"Point","coordinates":[117.194185787445576,31.772022385765712]}},
+{"type":"Feature","properties":{"name":"综合楼","level":2},"geometry":{"type":"Point","coordinates":[117.199016093569668,31.775253157734713]}},
+{"type":"Feature","properties":{"name":"体育馆","level":3},"geometry":{"type":"Point","coordinates":[117.200811360749839,31.775802333]}},
+{"type":"Feature","properties":{"name":"一、二食堂","level":3},"geometry":{"type":"Point","coordinates":[117.198856458750029,31.776248136499991]}},
+{"type":"Feature","properties":{"name":"科教楼","level":3},"geometry":{"type":"Point","coordinates":[117.199629054750034,31.773426990499988]}},
+{"type":"Feature","properties":{"name":"东风广场","level":2},"geometry":{"type":"Point","coordinates":[117.1976669,31.7738759]}},
+{"type":"Feature","properties":{"name":"建艺馆","level":3},"geometry":{"type":"Point","coordinates":[117.195520248749986,31.772135428499997]}},
+{"type":"Feature","properties":{"name":"图书馆","level":3},"geometry":{"type":"Point","coordinates":[117.19623821674999,31.770153212499999]}},
+{"type":"Feature","properties":{"name":"翠教楼群","level":2},"geometry":{"type":"Point","coordinates":[117.199621250749985,31.771487696499996]}},
+{"type":"Feature","properties":{"name":"风雨操场","level":1},"geometry":{"type":"Point","coordinates":[117.203265718749975,31.775838426499995]}},
+{"type":"Feature","properties":{"name":"宿舍楼群","level":2},"geometry":{"type":"Point","coordinates":[117.197139578749983,31.77531555849999]}},
+{"type":"Feature","properties":{"name":"宿舍楼群","level":2},"geometry":{"type":"Point","coordinates":[117.195407090749981,31.774308842499991]}},
+{"type":"Feature","properties":{"name":"宿舍楼群","level":2},"geometry":{"type":"Point","coordinates":[117.19383068274999,31.773622090499991]}},
+{"type":"Feature","properties":{"name":"俪人湖","level":2},"geometry":{"type":"Point","coordinates":[117.197447836750015,31.771331616499996]}},
+{"type":"Feature","properties":{"name":"实验楼群","level":1},"geometry":{"type":"Point","coordinates":[117.201759546750026,31.772800719499998]}},
+{"type":"Feature","properties":{"name":"工程训练中心","level":1},"geometry":{"type":"Point","coordinates":[117.200856233750017,31.769712286499999]}},
+{"type":"Feature","properties":{"name":"食品学院楼","level":2},"geometry":{"type":"Point","coordinates":[117.201714673750004,31.770976534499997]}},
+{"type":"Feature","properties":{"name":"工培中心","level":1},"geometry":{"type":"Point","coordinates":[117.202772115749994,31.772798768499996]}}
+]
+}
