@@ -13,8 +13,7 @@
 ## 部署
 
 该项目已部署在 Vercel 上，您可以访问以下链接：
-- **项目页面**: https://vercel.com/blueoceaniys-projects/hfut-campus-028map
-- **公共访问链接**: https://hfut-campus-028map.vercel.app
+- **公共访问链接**: [https://hfut-campus-028map.vercel.app](https://hfutcampusfind028.vercel.app/)
 
 ## 技术栈
 
