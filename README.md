@@ -26,7 +26,7 @@
 ## 项目结构
 
 ```
-HFUT_campus_028map/
+HFUT_campus_find028/
 ├── index.html           # 主页面
 ├── style.css           # 样式文件
 ├── main.js             # 主要逻辑
@@ -53,7 +53,7 @@ HFUT_campus_028map/
 
 ## GitHub 仓库
 
-- **仓库地址**: https://github.com/blueoceaniy/HFUT_campus_028map
+- **仓库地址**: https://github.com/blueoceaniy/HFUT_campus_find028
 - **主分支**: main
 
 ## 许可证
